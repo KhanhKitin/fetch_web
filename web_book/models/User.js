@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
-// const models = require('../models');
 
 module.exports = () => {
   const User = sequelize.define("Users", {
@@ -36,9 +35,13 @@ module.exports = () => {
   });
 
   User.associate = models => {
-    User.belongsToMany(models.Book, { through: Love });
-    User.hasMany(models.Comment);
+    
+    User.belongsToMany(models.Books, { through: models.Loves, foreignKey: 'user_id' });
+    User.belongsToMany(models.Books, { through: models.Comments, foreignKey: 'user_id' });
   };
 
   return User;
 };
+
+
+

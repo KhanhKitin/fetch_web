@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
-  const OrderDetail = sequelize.define("OrderDetail", {
+  const OrderDetail = sequelize.define("OrderDetails", {
     order_id: {
       type: Sequelize.INTEGER(11),
       primaryKey: true,

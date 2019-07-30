@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
-  const Order = sequelize.define("Order", {
-    order_id: {
+  const Comment = sequelize.define("Comments", {
+    comment_id: {
       type: Sequelize.INTEGER(11),
       allowNull: false,
       autoIncrement: true,
@@ -14,10 +14,17 @@ module.exports = () => {
       references: {
         model: "Users",
         key: "user_id"
-       }
+      }
     },
-    total_amount: {
-      type: Sequelize.FLOAT,
+    book_id: {
+      type: Sequelize.INTEGER(11),
+      references: {
+        model: "Books",
+        key: "book_id"
+      }
+    },
+    content: {
+      type: Sequelize.STRING(50),
       allowNull: false
     },
     date_create: {
@@ -26,15 +33,10 @@ module.exports = () => {
     },
     status: {
       type: Sequelize.INTEGER(11),
-      allowNull: false,
+      allowNull: false
     }
   });
 
-  Order.associate = models => {
-    Order.belongsTo(models.User);
-    Order.belongsToMany(models.Book, {through: OrderDetail});
-  };
-
-  return Order;
+  return Comment;
 };
 

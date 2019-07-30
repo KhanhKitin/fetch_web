@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
-  const PermissionDetail = sequelize.define("PermissionDetail", {
+  const PermissionDetail = sequelize.define("PermissionDetails", {
     role_id: {
       type: Sequelize.INTEGER(11),
       primaryKey: true,
@@ -23,3 +23,4 @@ module.exports = () => {
  
   return PermissionDetail;
 };
+

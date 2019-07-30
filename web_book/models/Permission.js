@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
-  const Permission = sequelize.define("Permission", {
+  const Permission = sequelize.define("Permissions", {
     permission_id: {
       type: Sequelize.INTEGER(11),
       allowNull: false,
@@ -16,7 +16,7 @@ module.exports = () => {
   });
 
   Permission.associate = models => {
-    Permission.belongsToMany(models.Role, {through: PermissionDetail});
+    Permission.belongsToMany(models.Roles, {through: models.PermissionDetails,  foreignKey: 'Permission_id'});
   };
 
   return Permission;

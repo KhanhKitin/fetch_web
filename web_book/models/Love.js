@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
-  const Love = sequelize.define("Love", {
+  const Love = sequelize.define("Loves", {
     user_id: {
       type: Sequelize.INTEGER(11),
       primaryKey: true,
@@ -20,6 +20,7 @@ module.exports = () => {
        }
     },
   });
+  
  
   return Love;
 };

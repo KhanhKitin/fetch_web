@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require("../src/database/connection");
 
 module.exports = () => {
   const Book = sequelize.define("Books", {
@@ -41,12 +41,27 @@ module.exports = () => {
       allowNull: false
     }
   });
+
   Book.associate = models => {
-    Book.belongsToMany(models.User, { through: Love });
-    Book.hasMany(models.Comment);
-    Book.belongsToMany(models.Order, { through: OrderDetail });
-    Book.belongsToMany(models.Cart, { through: CartDetail });
-    Book.belongsTo(models.Catalog);
+    Book.belongsToMany(models.Users, {
+      through: models.Loves,
+      foreignKey: "book_id"
+    });
+    Book.belongsToMany(models.Orders, {
+      through: models.OrderDetails,
+      foreignKey: "book_id"
+    });
+    Book.belongsToMany(models.Carts, {
+      through: models.CartDetails,
+      foreignKey: "book_id"
+    });
+    Book.belongsToMany(models.Users, {
+      through: models.Comments,
+      foreignKey: "book_id"
+    });
+    Book.belongsTo(models.Catalogs, {
+      foreignKey: "catalog_id"
+    });
   };
   return Book;
 };

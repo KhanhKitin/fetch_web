@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const connection = require("./src/database/connection");
 const routerAuth = require('./src/api/routes/auth');
 const routerAdmin = require('./src/api/routes/admin');
+const path = require('path');
 const app = express();
 
 app.use(bodyParser.json());

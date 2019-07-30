@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database/connection");
+const sequelize = require('../src/database/connection');
 
 module.exports = () => {
   const Catalog = sequelize.define("Catalogs", {
@@ -20,8 +20,9 @@ module.exports = () => {
   });
 
   Catalog.associate = models => {
-    Catalog.hasMany(models.Book);
+   Catalog.hasMany(models.Books, {foreignKey: 'catalog_id'});
   };
-
   return Catalog;
+  
 };
+
