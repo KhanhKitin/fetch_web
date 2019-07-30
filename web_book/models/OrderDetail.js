@@ -28,5 +28,10 @@ module.exports = () => {
       allowNull: false
     }
   });
+
+  OrderDetail.associate = models => {
+    OrderDetail.belongsTo(models.Orders, {foreignKey: 'order_id'});
+  };
+  
   return OrderDetail;
 };

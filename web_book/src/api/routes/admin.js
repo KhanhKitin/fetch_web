@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/admin');
-const multer  = require('multer')
-const { body } = require("express-validator");
+const multer  = require('multer');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -23,14 +22,27 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({storage: fileStorage, fileFilter: fileFilter})
 
 
-router.get('/books', adminController.books);
+router.get('/books', adminController.books); // lấy toàn bộ sách
 
-router.post('/books',  upload.single('image'), adminController.postBooks);
+router.post('/books',  upload.single('image'), adminController.postBooks); // đăng một sách
 
-router.get('/books/:id');
+router.get('/books/:id', adminController.book); // lấy một sách
 
-router.put('/books/:id');
+router.put('/books/:id', upload.single('image'), adminController.putBooks); // sửa một sách
 
-router.delete('books/:id');
+router.delete('/books/:id', adminController.deleteBooks); // xóa một sách
+
+router.get('/books/:id/comment', adminController.Comment); // lấy comment của một cuốn sách
+
+
+
+// test danh sach yeu thich
+router.get('/:id/wishlist', adminController.Wishlist); // lấy danh sach yeu thich cua user
+
+// test order
+
+router.get('/:id/orders', adminController.Order); // lay order cua user
+
+
 
 module.exports = router;

@@ -45,7 +45,8 @@ module.exports = () => {
   Book.associate = models => {
     Book.belongsToMany(models.Users, {
       through: models.Loves,
-      foreignKey: "book_id"
+      foreignKey: "book_id",
+      otherKey: 'user_id'
     });
     Book.belongsToMany(models.Orders, {
       through: models.OrderDetails,

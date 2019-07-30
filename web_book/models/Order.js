@@ -33,6 +33,7 @@ module.exports = () => {
   Order.associate = models => {
     Order.belongsTo(models.Users, { foreignKey: 'user_id'});
     Order.belongsToMany(models.Books, {through: models.OrderDetails,  foreignKey: 'order_id'});
+    Order.hasMany(models.OrderDetails, {foreignKey: 'order_id'})
   };
 
   return Order;

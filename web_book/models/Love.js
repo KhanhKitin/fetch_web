@@ -21,6 +21,10 @@ module.exports = () => {
     },
   });
   
+  Love.associate = models => {
+    Love.belongsTo(models.Books, {foreignKey:'book_id'});
+    Love.belongsTo(models.Users, {foreignKey:'user_id'});
+  };
  
   return Love;
 };
