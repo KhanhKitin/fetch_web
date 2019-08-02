@@ -37,6 +37,12 @@ module.exports = () => {
     }
   });
 
+  Comment.associate = models => {
+    Comment.belongsTo(models.Books, {foreignKey:'book_id'});
+    Comment.belongsTo(models.Users, {foreignKey:'user_id'});
+  };
+ 
+
   return Comment;
 };
 

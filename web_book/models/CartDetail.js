@@ -28,5 +28,10 @@ module.exports = () => {
       allowNull: false
     }
   });
+
+  CartDetail.associate = models => {
+    CartDetail.belongsTo(models.Carts, {foreignKey: 'cart_id'});
+  };
+
   return CartDetail;
 };

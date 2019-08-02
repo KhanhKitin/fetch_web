@@ -21,27 +21,27 @@ const fileFilter = (req, file, cb) => {
 }
 const upload = multer({storage: fileStorage, fileFilter: fileFilter})
 
+/*
+ - lấy toàn bộ sách
+ - đăng một sách
+ - sửa một sách
+ - xóa một sách
+*/
 
-router.get('/books', adminController.books); // lấy toàn bộ sách
+router.get('/books', adminController.getBooks); // lấy toàn bộ sách
 
 router.post('/books',  upload.single('image'), adminController.postBooks); // đăng một sách
 
-router.get('/books/:id', adminController.book); // lấy một sách
+router.get('/books/:id', adminController.getBook); // lấy một sách
 
 router.put('/books/:id', upload.single('image'), adminController.putBooks); // sửa một sách
 
 router.delete('/books/:id', adminController.deleteBooks); // xóa một sách
 
-router.get('/books/:id/comment', adminController.Comment); // lấy comment của một cuốn sách
+router.get('/:id', adminController.getInfoAdmin); // xem info 
 
 
 
-// test danh sach yeu thich
-router.get('/:id/wishlist', adminController.Wishlist); // lấy danh sach yeu thich cua user
-
-// test order
-
-router.get('/:id/orders', adminController.Order); // lay order cua user
 
 
 

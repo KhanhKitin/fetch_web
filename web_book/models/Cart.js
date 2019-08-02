@@ -29,6 +29,7 @@ module.exports = () => {
   Cart.associate = models => {
     Cart.belongsTo(models.Users, { foreignKey: 'user_id'});
     Cart.belongsToMany(models.Books, {through: models.CartDetails,  foreignKey: 'cart_id'});
+    Cart.hasMany(models.CartDetails, {foreignKey: 'cart_id'})
   }
 
   return Cart;

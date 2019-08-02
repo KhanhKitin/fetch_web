@@ -7,7 +7,7 @@ const { validationResult } = require("express-validator");
 
 // register
 
-module.exports.register = (req, res, next) => {
+module.exports.getRegister = (req, res, next) => {
   res.status(200).json({ message: "trang dang ky tai khoan" });
 };
 
@@ -39,7 +39,7 @@ module.exports.postRegister = async (req, res, next) => {
 
 // login
 
-module.exports.login = (req, res, next) => {
+module.exports.getLogin = (req, res, next) => {
   res.status(200).json({message: "trang dang nhap"});
 }
 
@@ -47,7 +47,7 @@ module.exports.postLogin = async (req, res, next) => {
   const { email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
+    return res.status(422).json({ errors: errors.array()});
   }
   const user = await User.findOne({ where: { email: email } });
   if(!user){

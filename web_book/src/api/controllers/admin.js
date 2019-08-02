@@ -1,25 +1,27 @@
 const Book = require("../../../models").Books;
 const Catalog = require("../../../models").Catalogs;
 const Comment = require("../../../models").Comments;
-const Love = require("../../../models").Loves;
 const User = require("../../../models").Users;
-const Order = require("../../../models").Orders;
-const OrderDetail = require("../../../models").OrderDetails;
+const Role = require("../../../models").Roles;
+const Permission = require('../../../models').Permissions;
+const PermissionDetail = require('../../../models').PermissionDetails;
 
-
-module.exports.books = async (req, res, next) => {
-  // lay toan bo sach
-  const book = await Book.findAll({
-    include: [Catalog],
-    raw: true
-  });
-  // console.log(book);
-  // console.log(book[1].updatedAt);
-  res.status(200).json(book);
+// lay toan bo sach
+module.exports.getBooks = async (req, res, next) => { 
+  try {
+    const book = await Book.findAll({
+      include: [Catalog],
+      raw: true
+    });
+    res.status(200).json(book);
+  }catch(error){
+    res.status(500).end(error.message);
+  }
+  
 };
 
-module.exports.postBooks = (req, res, next) => {
-  // dang sach
+// dang sach
+module.exports.postBooks = (req, res, next) => {  
   const {
     catalog_id,
     book_name,
@@ -28,6 +30,7 @@ module.exports.postBooks = (req, res, next) => {
     description,
     quantity
   } = req.body;
+
   const book_image = req.file.path.split("\\").join("/");
   console.log(book_image);
   Book.create({
@@ -43,37 +46,47 @@ module.exports.postBooks = (req, res, next) => {
     .catch(error => res.status(400).send(error));
 };
 
-module.exports.book = async (req, res, next) => {
-  // lay ra 1 sach
-  book_id = req.params.id;
-  const book = await Book.findByPk(book_id);
-  res.status(200).json(book);
-};
 
-module.exports.putBooks = async (req, res, next) => {
-  // sua mot sach
-  book_id = req.params.id;
-  const book = await Book.findByPk(book_id);
-  if (!book) {
-    res.status(201).json({ message: "sach khong ton tai" });
-    return;
-  } else {
-    book.update({
-      catalog_id: req.body.catalog_id,
-      book_name: req.body.book_name,
-      author: req.body.book_author,
-      price: req.body.price,
-      description: req.body.description,
-      quantity: req.body.quantity,
-      image: req.file.path.split("\\").join("/")
-    });
+// lay ra 1 sach
+module.exports.getBook = async (req, res, next) => { 
+  try{
+    book_id = req.params.id;
+    const book = await Book.findByPk(book_id);
+    res.status(200).json(book);
+  }catch(error){
+    res.status(500).end(error.message);
   }
-  res.status(201).json({ message: "cap nhat sach thanh cong" });
+  
 };
 
-module.exports.deleteBooks = async (req, res, next) => {
-  // xoa mot sach
-  book_id = req.params.id;
+// sua mot sach
+module.exports.putBooks = async (req, res, next) => { 
+  try{
+    book_id = req.params.id;
+    const book = await Book.findByPk(book_id);
+    if (!book) {
+      res.status(201).json({ message: "sach khong ton tai" });
+      return;
+    } else {
+      book.update({
+        catalog_id: req.body.catalog_id,
+        book_name: req.body.book_name,
+        author: req.body.book_author,
+        price: req.body.price,
+        description: req.body.description,
+        quantity: req.body.quantity,
+        image: req.file.path.split("\\").join("/")
+      });
+    }
+    res.status(201).json({ message: "cap nhat sach thanh cong" });
+  }catch(error){
+    res.status(500).end(error.message);
+  }  
+};
+
+// xoa mot sach
+module.exports.deleteBooks = async (req, res, next) => { 
+  const book_id = req.params.id;
   const book = await Book.findByPk(book_id);
   if (!book) {
     res.status(200).json({ message: "khong tim thay sach de xoa" });
@@ -86,25 +99,33 @@ module.exports.deleteBooks = async (req, res, next) => {
   res.status(200).json({ message: "Xoa thanh cong" });
 };
 
-module.exports.Comment = (req, res, next) => {
-  Comment.findAll({
-    where: { book_id: req.params.id },
-    raw: true
-  }).then(comments => res.json(comments));
-};
+// xem info
 
-// test wisjlist
-module.exports.Wishlist = (req, res, next) => {
-  Love.findAll({
-    where: { user_id: req.params.id },
-    include: [Book, User]
-  }).then(loveBook => res.json(loveBook));
+module.exports.getInfoAdmin = async (req, res, next) => {
+  try{
+    const user_id = req.params.id;
+    const user = await User.findOne({
+      where:{
+        user_id: user_id
+      },
+      include: [Role]
+    })
+
+    const permisstiondetail = await PermissionDetail.findAll({
+      where: {
+        role_id: user.role_id
+      },
+      include: [Permission]
+    })
+    res.status(200).json({user, permisstiondetail});
+  }
+  catch(error){
+    res.status(500).end(error.message);
+  }
+
 }
 
-// test order
-module.exports.Order = (req,res, next) => {
-  Order.findAll({
-    where: { user_id: req.params.id },
-    include: [OrderDetail, Book]
-  }).then(order => res.json(order));
-}
+
+
+
+

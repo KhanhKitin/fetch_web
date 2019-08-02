@@ -20,6 +20,10 @@ module.exports = () => {
       }
     }
   });
+
+  PermissionDetail.associate = models => {
+    PermissionDetail.belongsTo(models.Permissions, {foreignKey: 'Permission_id'})
+  };
  
   return PermissionDetail;
 };
