@@ -17,14 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 connection
   .sync()
   .then(() => {
-
     console.log("Connection has been established successfully.");
-
     app.use('/admin', routerAdmin);
     app.use('/shop', routerShop);
     app.use('/customer', routerCustomer);
     app.use(routerAuth);
-
     app.listen(3000, err => {
       if (err) {
         console.log(err);

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/admin');
 const multer  = require('multer');
+const { check } = require("express-validator");
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {

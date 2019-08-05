@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require('../controllers/auth');
-const { check } = require("express-validator");
-
+const {check} = require('express-validator');
 /*
  - đăng kí
  - đăng nhập
